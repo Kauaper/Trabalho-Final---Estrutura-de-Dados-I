@@ -297,8 +297,166 @@ void consultarEmprestimos() {
 
 }
 
+void atualizarLivro(){
 
+    int id;
 
+    printf("\nID do livro: ");
+    scanf("%d",&id);
+
+    Livro *aux = listaLivros;
+
+    while(aux != NULL){
+
+        if(aux->id == id){
+
+            printf("\nNovo titulo: ");
+            scanf(" %99[^\n]",aux->titulo);
+
+            printf("Novo autor: ");
+            scanf(" %99[^\n]",aux->autor);
+
+            printf("Novo ano: ");
+            scanf("%d",&aux->ano);
+
+            printf("\nLivro atualizado com sucesso!\n");
+
+            return;
+        }
+
+        aux = aux->prox;
+    }
+
+    printf("\nLivro nao encontrado!\n");
+}
+
+void atualizarUsuario(){
+
+    char email[100];
+
+    printf("\nEmail do usuario: ");
+    scanf("%99s",email);
+
+    Usuario *aux = listaUsuarios;
+
+    while(aux != NULL){
+
+        if(strcmp(aux->email,email) == 0){
+
+            printf("Novo nome: ");
+            scanf(" %99[^\n]",aux->nome);
+
+            printf("\nUsuario atualizado com sucesso!\n");
+
+            return;
+        }
+
+        aux = aux->prox;
+    }
+
+    printf("\nUsuario nao encontrado!\n");
+}
+
+void excluirLivro(){
+
+    int id;
+
+    printf("\nID do livro: ");
+    scanf("%d",&id);
+
+    Livro *atual = listaLivros;
+    Livro *anterior = NULL;
+
+    while(atual != NULL && atual->id != id){
+
+        anterior = atual;
+        atual = atual->prox;
+
+    }
+
+    if(atual == NULL){
+
+        printf("\nLivro nao encontrado!\n");
+        return;
+
+    }
+
+    // Não permite excluir livro emprestado
+    if(atual->status == 1){
+
+        printf("\nNao e possivel excluir um livro emprestado!\n");
+        return;
+
+    }
+
+    if(anterior == NULL){
+
+        listaLivros = atual->prox;
+
+    }else{
+
+        anterior->prox = atual->prox;
+
+    }
+
+    free(atual);
+
+    printf("\nLivro excluido com sucesso!\n");
+}
+
+void excluirUsuario(){
+
+    char email[100];
+
+    printf("\nEmail do usuario: ");
+    scanf("%99s", email);
+
+    Usuario *atual = listaUsuarios;
+    Usuario *anterior = NULL;
+
+    while(atual != NULL && strcmp(atual->email, email) != 0){
+
+        anterior = atual;
+        atual = atual->prox;
+
+    }
+
+    if(atual == NULL){
+
+        printf("\nUsuario nao encontrado!\n");
+        return;
+
+    }
+
+    // Verifica se o usuário possui livros emprestados
+    Livro *livro = listaLivros;
+
+    while(livro != NULL){
+
+        if(strcmp(livro->emailUsuario, email) == 0){
+
+            printf("\nNao e possivel excluir um usuario com livros emprestados!\n");
+            return;
+
+        }
+
+        livro = livro->prox;
+    }
+
+    if(anterior == NULL){
+
+        listaUsuarios = atual->prox;
+
+    }else{
+
+        anterior->prox = atual->prox;
+
+    }
+
+    free(atual);
+
+    printf("\nUsuario excluido com sucesso!\n");
+}
 
 int main() {
 
@@ -409,12 +567,12 @@ int main() {
 
             if(opcaoAtualizacao == 1) {
 
-                printf("Atualizacao de livros\n");
+                atualizarLivro();
 
             }
             else if(opcaoAtualizacao == 2) {
 
-                printf("Atualizacao de usuarios\n");
+                atualizarUsuario();
 
             }
             else if(opcaoAtualizacao == 0) {
@@ -443,12 +601,12 @@ int main() {
 
             if(opcaoExclusao == 1) {
 
-                printf("Exclusao de livros\n");
+                excluirLivro();
 
             }
             else if(opcaoExclusao == 2) {
 
-                printf("Exclusao de usuarios\n");
+                excluirUsuario();
 
             }
             else if(opcaoExclusao == 0) {
