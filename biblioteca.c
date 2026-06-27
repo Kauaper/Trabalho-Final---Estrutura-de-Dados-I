@@ -119,6 +119,186 @@ void cadastrarUsuario() {
     printf("\nUsuário cadastrado com sucesso!\n");
 }
 
+void consultarLivro() {
+
+    int opcao;
+
+    printf("\n=== CONSULTA DE LIVROS ===\n");
+    printf("1 - Por ID\n");
+    printf("2 - Por Autor\n");
+    printf("0 - Voltar\n");
+
+    printf("Opcao: ");
+    scanf("%d", &opcao);
+
+    if(opcao == 1) {
+
+        int id;
+
+        printf("ID: ");
+        scanf("%d", &id);
+
+        Livro *aux = listaLivros;
+
+        while(aux != NULL) {
+
+            if(aux->id == id) {
+
+                printf("\n===== LIVRO =====\n");
+                printf("ID: %d\n", aux->id);
+                printf("Titulo: %s\n", aux->titulo);
+                printf("Autor: %s\n", aux->autor);
+                printf("Ano: %d\n", aux->ano);
+
+                if(aux->status == 0)
+                    printf("Status: Disponivel\n");
+                else
+                    printf("Status: Emprestado\n");
+
+                return;
+            }
+
+            aux = aux->prox;
+        }
+
+        printf("\nLivro nao encontrado.\n");
+
+    }
+    else if(opcao == 2) {
+
+        char autor[100];
+        int encontrou = 0;
+
+        printf("Autor: ");
+        scanf(" %99[^\n]", autor);
+
+        Livro *aux = listaLivros;
+
+        while(aux != NULL) {
+
+            if(strcmp(aux->autor, autor) == 0) {
+
+                encontrou = 1;
+
+                printf("\n---------------------\n");
+                printf("ID: %d\n", aux->id);
+                printf("Titulo: %s\n", aux->titulo);
+                printf("Ano: %d\n", aux->ano);
+
+            }
+
+            aux = aux->prox;
+        }
+
+        if(!encontrou)
+            printf("\nLivro nao encontrado.\n");
+
+    }
+
+}
+
+void consultarUsuario() {
+
+    int opcao;
+
+    printf("\n=== CONSULTA DE USUARIOS ===\n");
+    printf("1 - Por Email\n");
+    printf("2 - Por Nome\n");
+    printf("0 - Voltar\n");
+
+    printf("Opcao: ");
+    scanf("%d",&opcao);
+
+    if(opcao == 1){
+
+        char email[100];
+
+        printf("Email: ");
+        scanf("%s",email);
+
+        Usuario *aux = listaUsuarios;
+
+        while(aux != NULL){
+
+            if(strcmp(aux->email,email)==0){
+
+                printf("\nNome: %s\n",aux->nome);
+                printf("Email: %s\n",aux->email);
+
+                return;
+            }
+
+            aux = aux->prox;
+        }
+
+        printf("\nUsuario nao cadastrado.\n");
+
+    }
+
+    else if(opcao == 2){
+
+        char nome[100];
+
+        printf("Nome: ");
+        scanf(" %99[^\n]",nome);
+
+        Usuario *aux = listaUsuarios;
+
+        while(aux != NULL){
+
+            if(strcmp(aux->nome,nome)==0){
+
+                printf("\nNome: %s\n",aux->nome);
+                printf("Email: %s\n",aux->email);
+
+                return;
+            }
+
+            aux = aux->prox;
+        }
+
+        printf("\nUsuario nao cadastrado.\n");
+
+    }
+
+}
+
+void consultarEmprestimos() {
+
+    char email[100];
+    int encontrou = 0;
+
+    printf("Email do usuario: ");
+    scanf("%s", email);
+
+    Livro *aux = listaLivros;
+
+    while(aux != NULL){
+
+        if(strcmp(aux->emailUsuario,email)==0){
+
+            encontrou = 1;
+
+            printf("\n-----------------\n");
+            printf("ID: %d\n",aux->id);
+            printf("Titulo: %s\n",aux->titulo);
+            printf("Autor: %s\n",aux->autor);
+
+        }
+
+        aux = aux->prox;
+    }
+
+    if(!encontrou){
+
+        printf("\nNenhum livro emprestado para este usuario.\n");
+
+    }
+
+}
+
+
+
 
 int main() {
 
@@ -190,17 +370,17 @@ int main() {
 
             if(opcaoConsulta == 1) {
 
-                printf("Consulta de livros\n");
+                consultarLivro();
 
             }
             else if(opcaoConsulta == 2) {
 
-                printf("Consulta de usuarios\n");
+                consultarUsuario();
 
             }
             else if(opcaoConsulta == 3) {
 
-                printf("Consulta de emprestimos\n");
+                consultarEmprestimos();
 
             }
             else if(opcaoConsulta == 0) {
