@@ -38,6 +38,7 @@ Usuario *listaUsuarios = NULL;
 
 int proximoID = 1;
 
+
 void cadastrarLivro() {
 
     Livro *novo = (Livro *) malloc(sizeof(Livro));
@@ -57,14 +58,20 @@ void cadastrarLivro() {
     scanf(" %99[^\n]", novo->autor);
 
     printf("Ano: ");
-    scanf("%d", &novo->ano);
+
+while(scanf("%d", &novo->ano) != 1){
+
+    printf("Digite um ano valido: ");
+
+    while(getchar() != '\n');
+
+}
 
     novo->status = 0;
 
     strcpy(novo->emailUsuario, "");
 
     novo->prox = NULL;
-
     if(listaLivros == NULL) {
         listaLivros = novo;
     }
@@ -129,14 +136,26 @@ void consultarLivro() {
     printf("0 - Voltar\n");
 
     printf("Opcao: ");
-    scanf("%d", &opcao);
+    while(scanf("%d", &opcao) != 1){
+
+    printf("Digite uma opção valido: ");
+
+    while(getchar() != '\n');
+
+}
 
     if(opcao == 1) {
 
         int id;
 
         printf("ID: ");
-        scanf("%d", &id);
+         while(scanf("%d", &id) != 1){
+
+    printf("Digite um id valido: ");
+
+    while(getchar() != '\n');
+
+}
 
         Livro *aux = listaLivros;
 
@@ -207,7 +226,13 @@ void consultarUsuario() {
     printf("0 - Voltar\n");
 
     printf("Opcao: ");
-    scanf("%d",&opcao);
+     while(scanf("%d", &opcao) != 1){
+
+    printf("Digite uma opção valido: ");
+
+    while(getchar() != '\n');
+
+}
 
     if(opcao == 1){
 
@@ -302,7 +327,13 @@ void atualizarLivro(){
     int id;
 
     printf("\nID do livro: ");
-    scanf("%d",&id);
+     while(scanf("%d", &id) != 1){
+
+    printf("Digite um id valido: ");
+
+    while(getchar() != '\n');
+
+}
 
     Livro *aux = listaLivros;
 
@@ -362,7 +393,13 @@ void excluirLivro(){
     int id;
 
     printf("\nID do livro: ");
-    scanf("%d",&id);
+     while(scanf("%d", &id) != 1){
+
+    printf("Digite um id valido: ");
+
+    while(getchar() != '\n');
+
+}
 
     Livro *atual = listaLivros;
     Livro *anterior = NULL;
@@ -458,6 +495,91 @@ void excluirUsuario(){
     printf("\nUsuario excluido com sucesso!\n");
 }
 
+void emprestarLivro(){
+
+    int id;
+    char email[100];
+
+    printf("\nID do livro: ");
+     while(scanf("%d", &id) != 1){
+
+    printf("Digite um id valido: ");
+
+    while(getchar() != '\n');
+
+}
+
+    Livro *livro = listaLivros;
+
+    while(livro != NULL && livro->id != id){
+        livro = livro->prox;
+    }
+
+    if(livro == NULL){
+        printf("\nLivro nao encontrado!\n");
+        return;
+    }
+
+    if(livro->status == 1){
+        printf("\nLivro ja esta emprestado!\n");
+        return;
+    }
+
+    printf("Email do usuario: ");
+    scanf("%99s", email);
+
+    Usuario *usuario = listaUsuarios;
+
+    while(usuario != NULL && strcmp(usuario->email, email) != 0){
+        usuario = usuario->prox;
+    }
+
+    if(usuario == NULL){
+        printf("\nUsuario nao encontrado!\n");
+        return;
+    }
+
+    livro->status = 1;
+    strcpy(livro->emailUsuario, email);
+
+    printf("\nLivro emprestado com sucesso!\n");
+}
+
+void devolverLivro(){
+
+    int id;
+
+    printf("\nID do livro: ");
+     while(scanf("%d", &id) != 1){
+
+    printf("Digite um id valido: ");
+
+    while(getchar() != '\n');
+
+}
+
+    Livro *livro = listaLivros;
+
+    while(livro != NULL && livro->id != id){
+        livro = livro->prox;
+    }
+
+    if(livro == NULL){
+        printf("\nLivro nao encontrado!\n");
+        return;
+    }
+
+    if(livro->status == 0){
+        printf("\nEste livro nao esta emprestado!\n");
+        return;
+    }
+
+    livro->status = 0;
+    strcpy(livro->emailUsuario, "");
+
+    printf("\nLivro devolvido com sucesso!\n");
+}
+
 int main() {
 
     int opcao;
@@ -477,7 +599,13 @@ int main() {
         printf("=====================================\n");
 
         printf("Opcao: ");
-        scanf("%d", &opcao);
+         while(scanf("%d", &opcao) != 1){
+
+    printf("Digite uma opção valida: ");
+
+    while(getchar() != '\n');
+
+}
 
         if(opcao == 1) {
 
@@ -623,12 +751,12 @@ int main() {
         }
         else if(opcao == 5) {
 
-            printf("\nEmprestimo de livro\n");
+            emprestarLivro();
 
         }
         else if(opcao == 6) {
 
-            printf("\nDevolucao de livro\n");
+            devolverLivro();
 
         }
         else if(opcao == 0) {
