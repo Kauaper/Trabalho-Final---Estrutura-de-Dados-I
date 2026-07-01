@@ -39,6 +39,98 @@ Usuario *listaUsuarios = NULL;
 int proximoID = 1;
 
 
+//estrutura da arvore binaria -- extra!!!
+typedef struct NoArvore{
+    int id;
+    struct NoArvore *esq;
+    struct NoArvore *dir;
+} NoArvore;
+
+NoArvore *raiz = NULL;
+
+NoArvore* inserir(NoArvore *raiz, int id){
+
+    if(raiz == NULL){
+
+        NoArvore *novo = malloc(sizeof(NoArvore));
+
+        novo->id = id;
+        novo->esq = NULL;
+        novo->dir = NULL;
+
+        return novo;
+    }
+
+    if(id < raiz->id)
+        raiz->esq = inserir(raiz->esq, id);
+
+    else if(id > raiz->id)
+        raiz->dir = inserir(raiz->dir, id);
+
+    return raiz;
+}
+
+int buscar(NoArvore *raiz, int id){
+
+    if(raiz == NULL)
+        return 0;
+
+    if(id == raiz->id)
+        return 1;
+
+    if(id < raiz->id)
+        return buscar(raiz->esq, id);
+
+    return buscar(raiz->dir, id);
+}
+
+NoArvore *menor(NoArvore *raiz){
+
+    while(raiz->esq != NULL)
+        raiz = raiz->esq;
+
+    return raiz;
+}
+
+NoArvore *remover(NoArvore *raiz,int id){
+
+    if(raiz == NULL)
+        return NULL;
+
+    if(id < raiz->id)
+        raiz->esq = remover(raiz->esq,id);
+
+    else if(id > raiz->id)
+        raiz->dir = remover(raiz->dir,id);
+
+    else{
+
+        if(raiz->esq == NULL){
+
+            NoArvore *temp = raiz->dir;
+            free(raiz);
+            return temp;
+        }
+
+        if(raiz->dir == NULL){
+
+            NoArvore *temp = raiz->esq;
+            free(raiz);
+            return temp;
+        }
+
+        NoArvore *temp = menor(raiz->dir);
+
+        raiz->id = temp->id;
+
+        raiz->dir = remover(raiz->dir,temp->id);
+    }
+
+    return raiz;
+}
+
+
+//resto das funções 
 void cadastrarLivro() {
 
     Livro *novo = (Livro *) malloc(sizeof(Livro));
@@ -49,6 +141,7 @@ void cadastrarLivro() {
     }
 
     novo->id = proximoID++;
+    raiz = inserir(raiz, novo->id);
 
     printf("\nTitulo: ");
     scanf(" %99[^\n]", novo->titulo); // %99 permite que o usuário digite espaços no título
@@ -156,6 +249,11 @@ void consultarLivro() {
     while(getchar() != '\n');
 
 }
+
+if(!buscar(raiz, id)){
+        printf("\nLivro nao encontrado.\n");
+        return;
+    }
 
         Livro *aux = listaLivros;
 
@@ -335,6 +433,11 @@ void atualizarLivro(){
 
 }
 
+if(!buscar(raiz, id)){
+        printf("\nLivro nao encontrado.\n");
+        return;
+    }
+
     Livro *aux = listaLivros;
 
     while(aux != NULL){
@@ -400,7 +503,10 @@ void excluirLivro(){
     while(getchar() != '\n');
 
 }
-
+if(!buscar(raiz, id)){
+        printf("\nLivro nao encontrado.\n");
+        return;
+    }
     Livro *atual = listaLivros;
     Livro *anterior = NULL;
 
@@ -436,6 +542,7 @@ void excluirLivro(){
 
     }
 
+    raiz = remover(raiz, id);
     free(atual);
 
     printf("\nLivro excluido com sucesso!\n");
@@ -509,6 +616,11 @@ void emprestarLivro(){
 
 }
 
+if(!buscar(raiz, id)){
+        printf("\nLivro nao encontrado.\n");
+        return;
+    }
+
     Livro *livro = listaLivros;
 
     while(livro != NULL && livro->id != id){
@@ -557,6 +669,11 @@ void devolverLivro(){
     while(getchar() != '\n');
 
 }
+
+if(!buscar(raiz, id)){
+        printf("\nLivro nao encontrado.\n");
+        return;
+    }
 
     Livro *livro = listaLivros;
 
