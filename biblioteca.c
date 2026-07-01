@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -39,6 +38,7 @@ Usuario *listaUsuarios = NULL;
 
 int proximoID = 1;
 
+
 void cadastrarLivro() {
 
     Livro *novo = (Livro *) malloc(sizeof(Livro));
@@ -58,14 +58,20 @@ void cadastrarLivro() {
     scanf(" %99[^\n]", novo->autor);
 
     printf("Ano: ");
-    scanf("%d", &novo->ano);
+
+while(scanf("%d", &novo->ano) != 1){
+
+    printf("Digite um ano valido: ");
+
+    while(getchar() != '\n');
+
+}
 
     novo->status = 0;
 
     strcpy(novo->emailUsuario, "");
 
     novo->prox = NULL;
-
     if(listaLivros == NULL) {
         listaLivros = novo;
     }
@@ -130,14 +136,26 @@ void consultarLivro() {
     printf("0 - Voltar\n");
 
     printf("Opcao: ");
-    scanf("%d", &opcao);
+    while(scanf("%d", &opcao) != 1){
+
+    printf("Digite uma opção valido: ");
+
+    while(getchar() != '\n');
+
+}
 
     if(opcao == 1) {
 
         int id;
 
         printf("ID: ");
-        scanf("%d", &id);
+         while(scanf("%d", &id) != 1){
+
+    printf("Digite um id valido: ");
+
+    while(getchar() != '\n');
+
+}
 
         Livro *aux = listaLivros;
 
@@ -208,7 +226,13 @@ void consultarUsuario() {
     printf("0 - Voltar\n");
 
     printf("Opcao: ");
-    scanf("%d",&opcao);
+     while(scanf("%d", &opcao) != 1){
+
+    printf("Digite uma opção valido: ");
+
+    while(getchar() != '\n');
+
+}
 
     if(opcao == 1){
 
@@ -303,7 +327,13 @@ void atualizarLivro(){
     int id;
 
     printf("\nID do livro: ");
-    scanf("%d",&id);
+     while(scanf("%d", &id) != 1){
+
+    printf("Digite um id valido: ");
+
+    while(getchar() != '\n');
+
+}
 
     Livro *aux = listaLivros;
 
@@ -363,7 +393,13 @@ void excluirLivro(){
     int id;
 
     printf("\nID do livro: ");
-    scanf("%d",&id);
+     while(scanf("%d", &id) != 1){
+
+    printf("Digite um id valido: ");
+
+    while(getchar() != '\n');
+
+}
 
     Livro *atual = listaLivros;
     Livro *anterior = NULL;
@@ -465,7 +501,13 @@ void emprestarLivro(){
     char email[100];
 
     printf("\nID do livro: ");
-    scanf("%d",&id);
+     while(scanf("%d", &id) != 1){
+
+    printf("Digite um id valido: ");
+
+    while(getchar() != '\n');
+
+}
 
     Livro *livro = listaLivros;
 
@@ -508,7 +550,13 @@ void devolverLivro(){
     int id;
 
     printf("\nID do livro: ");
-    scanf("%d",&id);
+     while(scanf("%d", &id) != 1){
+
+    printf("Digite um id valido: ");
+
+    while(getchar() != '\n');
+
+}
 
     Livro *livro = listaLivros;
 
@@ -551,7 +599,13 @@ int main() {
         printf("=====================================\n");
 
         printf("Opcao: ");
-        scanf("%d", &opcao);
+         while(scanf("%d", &opcao) != 1){
+
+    printf("Digite uma opção valida: ");
+
+    while(getchar() != '\n');
+
+}
 
         if(opcao == 1) {
 
@@ -719,3 +773,4 @@ int main() {
     } while(opcao != 0);
 
     return 0;
+}
