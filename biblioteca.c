@@ -201,19 +201,31 @@ void cadastrarUsuario() {
 
     novo->prox = NULL;
 
-    if(listaUsuarios == NULL) {
+    //implementação da lista encadeada ordenada por e-mail - extra 2
+    if(listaUsuarios == NULL){
 
         listaUsuarios = novo;
 
-    } else {
+    }
+    else if(strcmp(novo->email, listaUsuarios->email) < 0){
+
+        novo->prox = listaUsuarios;
+        listaUsuarios = novo;
+
+    }
+    else{
 
         Usuario *aux = listaUsuarios;
 
-        while(aux->prox != NULL) {
+        while(aux->prox != NULL &&
+            strcmp(aux->prox->email, novo->email) < 0){
+
             aux = aux->prox;
         }
 
+        novo->prox = aux->prox;
         aux->prox = novo;
+
     }
 
     printf("\nUsuário cadastrado com sucesso!\n");
