@@ -4,13 +4,15 @@
 
 /*
 Trabalho Final - Estrutura de Dados I
-Sistema de Controle de Biblioteca
+Sistema de Controle de Biblioteca -- Deborah e Kauã
 
 Foi utilizada uma LLM (ChatGPT) como ferramenta de apoio para:
 
-parte visual do menu de escolhas
+parte visual do menu de escolhas,
+algumas outras formatações do código
+e para tirar duvidas em partes que ficamos travados
 
-Todo o código foi revisado, adaptado e compreendido pelos alunos.
+Todo o código foi revisado, adaptado e compreendido pela Deborah e Kauã
 */
 
 typedef struct Livro {
