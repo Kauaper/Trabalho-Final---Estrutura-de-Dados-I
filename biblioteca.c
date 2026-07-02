@@ -197,7 +197,7 @@ void cadastrarUsuario() {
     scanf("%s", novo->email);
 
     printf("Nome: ");
-    scanf("%s", novo->nome);
+    scanf(" %99[^\n]", novo->nome);
 
     novo->prox = NULL;
 
@@ -730,7 +730,7 @@ int main() {
         printf("Opcao: ");
          while(scanf("%d", &opcao) != 1){
 
-    printf("Digite uma opção valida: ");
+    printf("Digite uma opcao valida: ");
 
     while(getchar() != '\n');
 
